@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, FlatList, Pressable } from 'react-native';
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -19,6 +19,12 @@ export default function App() {
     setEnteredGoalText("");
   }
 
+  function deleteGoalHandler(goalkey){
+    setGoalList(currentGoalList => {
+      return currentGoalList.filter((goal) => goal.key !== goalkey)
+  })
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -32,7 +38,12 @@ export default function App() {
         data={goalList}
         renderItem={(itemData) => (
           <View style={styles.goalList}>
-            <Text style={styles.goalTexts}>{itemData.item.value}</Text>
+            <Pressable
+              onPress={()=>deleteGoalHandler(itemData.item.key)}
+              style={({pressed}) => pressed && styles.pressedItem}
+            >
+              <Text style={styles.goalTexts}>{itemData.item.value}</Text>
+            </Pressable>
           </View>
         )}
       />
@@ -63,4 +74,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
   },
+  pressedItem:{
+    opacity: 0.4,
+  }
 });
