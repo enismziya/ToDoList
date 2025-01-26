@@ -1,6 +1,20 @@
-import { View, Text, Pressable, StyleSheet, Image } from "react-native"
+import { View, Text, Pressable, StyleSheet, Image, Alert } from "react-native"
 
 function GoalItem(props){
+
+    function confirmDeleteHandler(){
+        Alert.alert(
+            "Are you sure delete this goal?",
+            `You are about to delete the ${props.text} goal.`,
+            [
+                {text:"No", style:"cancel"},
+                {text:"Yes", styles:"destructive", onPress: props.onDelete}
+            ]
+        )
+    }
+
+
+
     return(
     <View style={styles.container}>
         <View style={styles.goalList}>
@@ -17,7 +31,7 @@ function GoalItem(props){
             </View>
         </View>
         <Pressable
-        onPress={props.onDelete}
+        onPress={confirmDeleteHandler}
         style={({pressed}) => pressed && styles.pressedItem}
         >
             <Image style={styles.image} source={require("../assets/trashcan.png")}/>

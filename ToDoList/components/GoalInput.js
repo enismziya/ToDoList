@@ -16,21 +16,24 @@ function GoalInput(props){
     return(
         <Modal visible = {props.visible} animationType="slide">
             <View style = {styles.inputContainer}>
-                <Image style={styles.image} source={require("../assets/cloudtarget.png")}/>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Your next goal..."
-                    onChangeText={goalInputHandler}
-                    value={enteredGoalText}
-                />
-                <View style = {styles.buttonContainer}>
-                    <View style={styles.buttons}>
-                        <Button title="Add" onPress={addGoalHandler}/>
-                    </View>
-                    <View style={styles.buttons}>
-                        <Button title="Cancel" onPress={props.onCancel}/>
-                    </View>
-                </View>    
+                <View style={styles.items}>
+                    <Image style={styles.image} source={require("../assets/cloudtarget.png")}/>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Your next goal..."
+                        onChangeText={goalInputHandler}
+                        value={enteredGoalText}
+                        maxLength={20}
+                    />
+                    <View style = {styles.buttonContainer}>
+                        <View style={styles.buttons}>
+                            <Button title="Add" onPress={addGoalHandler}/>
+                        </View>
+                        <View style={styles.buttons}>
+                            <Button title="Cancel" onPress={props.onCancel}/>
+                        </View>
+                    </View>   
+                </View> 
             </View>
         </Modal>
     )
@@ -41,11 +44,16 @@ export default GoalInput
 const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "flex-start",
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: '#cccccc',
         backgroundColor:'#a1efff',
+      },
+      items:{
+        alignItems:"center",
+        marginTop:"50%",
+        width:"100%",
       },
       image:{
         width:200,
