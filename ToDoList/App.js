@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {StyleSheet, View, FlatList, Button} from 'react-native';
+import {StyleSheet, View, FlatList, Text, Pressable} from 'react-native';
 import GoalInput from './components/GoalInput';
 import GoalItem from './components/GoalItems';
 
@@ -32,9 +32,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Button
+      <Pressable
       onPress={startAddGoalHandler}
-      title='Add New Goal'/>
+      style={styles.button}>
+        <Text style={styles.buttonText}>Add New Goal</Text>
+      </Pressable>
       <GoalInput
       visible = {modelVisible}
       onAddGoal={addGoalHandler}
@@ -60,7 +62,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
-    backgroundColor: '#fff',
+    padding: 20,
+    backgroundColor: '#a1efff',
+    alignItems:"stretch",
   },
+  button:{
+    marginTop:30,
+    padding:20,
+    alignSelf:"center"
+  },
+  buttonText:{
+    fontSize:20,
+    color:"blue",
+    fontWeight:"bold"
+  }
 });
