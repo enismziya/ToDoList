@@ -1,51 +1,40 @@
-
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, FlatList, Pressable } from 'react-native';
+import {StyleSheet, View, FlatList} from 'react-native';
+import GoalInput from './components/GoalInput';
+import GoalItem from './components/GoalItems';
 
 export default function App() {
-  const [enteredGoalText, setEnteredGoalText] = useState("");
   const [goalList, setGoalList] = useState([]);
 
-  function goalInputHandler(text) {
-    setEnteredGoalText(text);
-  }
-
-  function addGoalHandler() {
+  function addGoalHandler(enteredGoalText) {
     if (enteredGoalText.trim().length === 0) return;
-    setGoalList(currentGoalList => [
+    setGoalList((currentGoalList) => [
       ...currentGoalList,
       { key: Math.random().toString(), value: enteredGoalText },
     ]);
-    setEnteredGoalText("");
   }
 
-  function deleteGoalHandler(goalkey){
-    setGoalList(currentGoalList => {
-      return currentGoalList.filter((goal) => goal.key !== goalkey)
-  })
+  function deleteGoalHandler(key) {
+    setGoalList((currentGoalList) => {
+      return currentGoalList.filter((goal) => goal.key !== key);
+    });
   }
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Your next goal..."
-        onChangeText={goalInputHandler}
-        value={enteredGoalText}
+      <GoalInput
+      onAddGoal={addGoalHandler}
       />
-      <Button title="Add Goal" onPress={addGoalHandler} />
       <FlatList
         data={goalList}
-        renderItem={(itemData) => (
-          <View style={styles.goalList}>
-            <Pressable
-              onPress={()=>deleteGoalHandler(itemData.item.key)}
-              style={({pressed}) => pressed && styles.pressedItem}
-            >
-              <Text style={styles.goalTexts}>{itemData.item.value}</Text>
-            </Pressable>
-          </View>
-        )}
+        renderItem={(itemData) => {
+          return(<GoalItem
+          text = {itemData.item.value}
+          onDelete = {() => deleteGoalHandler(itemData.item.key)}
+          />
+        )
+        }}
+        keyExtractor={(item) => item.key}
       />
     </View>
   );
@@ -57,24 +46,4 @@ const styles = StyleSheet.create({
     padding: 50,
     backgroundColor: '#fff',
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 8,
-    marginBottom: 10,
-    borderRadius: 10,
-  },
-  goalList: {
-    marginVertical: 8,
-    padding: 10,
-    borderRadius: 6,
-    backgroundColor: '#e3e3e3',
-  },
-  goalTexts: {
-    color: 'black',
-    fontSize: 16,
-  },
-  pressedItem:{
-    opacity: 0.4,
-  }
 });
